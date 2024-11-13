@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .table-responsive {
+            overflow-x: auto; /* Enables horizontal scrolling */
+        }
+    </style>
+</head>
+<body>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Products</h4>
+            <div class="table-responsive">  <!-- Added div for scrolling -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Category</th>
+                            <th>Product Name</th>
+                            <th>Product Description</th>
+                            <th>Product Price</th>
+                            <th>Category Image</th>
+                            <th> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in pro %}
+                        <tr>
+                            <td>{{i.Product_Category}}</td>
+                            <td>{{i.Product_Name}}</td>
+                            <td>{{i.Product_Description}}</td>
+                            <td>{{i.Product_Price}}</td>
+                            <td>
+                                <img src="{{i.Product_Image.url}}" >
+                            </td>
+                            <td>
+                                <a href="{% url 'edit_products' i.id %}">
+                                    <button class="btn btn-success">Edit</button>
+                                </a>
+                                <a href="{% url 'delete_products' i.id %}">
+                                    <button class="btn btn-danger">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> <!-- End of scrollable div -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

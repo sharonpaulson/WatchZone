@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Edit Category</h4>
+                    <form class="forms-sample" method="post" action="{% url 'update_categories' cat_id=cat.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Category Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="exampleInputUsername2" name="category_name" value="{{cat.Category_Name}}" placeholder="Category Name">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Category Description</label>
+                        <div class="col-sm-9">
+                          <textarea  class="form-control" id="exampleInputEmail2" name="category_description" placeholder="Category Description">{{cat.Category_Description}}</textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label  class="col-sm-3 col-form-label">Category Image</label>
+                        <div class="col-sm-9">
+                            <img src="{{cat.Category_Image.url}}" width="80px" height="80px">
+                          <input type="file" class="form-control"  name="category_image" >
+                        </div>
+                      </div>
+<!--                      <div class="form-group row">-->
+<!--                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group row">-->
+<!--                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group row">-->
+<!--                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">-->
+<!--                        </div>-->
+<!--                      </div>-->
+                      <button type="submit" class="btn btn-primary mr-2">Update</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+</body>
+</html>
+{% endblock %}

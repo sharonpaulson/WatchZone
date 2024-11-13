@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 align="center" class="card-title">Add Product</h4>
+            <form class="forms-sample" method="post" action="{% url 'update_products' pro_id=pro.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Product Category</label>
+                    <div class="col-sm-9">
+                        <select name="product_category" class="form-control">
+                            <option>{{pro.Product_Category}}</option>
+                            {% for i in cat %}
+                            <option>{{i.Category_Name}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Product Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" value="{{pro.Product_Name}}" class="form-control" id="exampleInputUsername2" name="product_name"
+                               placeholder="Product Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Product Description</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" id="exampleInputEmail2" name="product_description"
+                                  placeholder="Product Description">{{pro.Product_Description}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputMobile" class="col-sm-3 col-form-label">Product Price</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" value="{{pro.Product_Price}}" name="product_price" id="exampleInputMobile" placeholder="Product Price">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Product Image</label>
+                    <div class="col-sm-9">
+                        <img src="{{pro.Product_Image.url}}" height="100px" width="100px">
+                        <input type="file" class="form-control" name="product_image" id="exampleInputPassword2" placeholder="Product Image">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

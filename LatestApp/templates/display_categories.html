@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .table-responsive {
+            overflow-x: auto; /* Enables horizontal scrolling */
+        }
+    </style>
+</head>
+<body>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Categories</h4>
+            <div class="table-responsive">  <!-- Added div for scrolling -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Category Description</th>
+                            <th>Category Image</th>
+                            <th> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in cat %}
+                        <tr>
+                            <td>{{i.Category_Name}}</td>
+                            <td>{{i.Category_Description}}</td>
+                            <td>
+                                <img src="{{i.Category_Image.url}}" >
+                            </td>
+                            <td>
+                                <a href="{% url 'edit_categories' cat_id=i.id %}">
+                                    <button class="btn btn-success">Edit</button>
+                                </a>
+                                <a href="{% url 'delete_categories' cat_id=i.id %}">
+                                    <button class="btn btn-danger">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> <!-- End of scrollable div -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

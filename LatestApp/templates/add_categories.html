@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 align="center" class="card-title">Add Category</h4>
+                    <form class="forms-sample" method="post" action="{% url 'save_categories' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Category Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="exampleInputUsername2" name="category_name" placeholder="Category Name">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Category Description</label>
+                        <div class="col-sm-9">
+                          <textarea  class="form-control" id="exampleInputEmail2" name="category_description" placeholder="Category Description"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label  class="col-sm-3 col-form-label">Category Image</label>
+                        <div class="col-sm-9">
+                          <input type="file" class="form-control" name="category_image" placeholder="Category Image">
+                        </div>
+                      </div>
+<!--                      <div class="form-group row">-->
+<!--                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group row">-->
+<!--                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">-->
+<!--                        </div>-->
+<!--                      </div>-->
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+</body>
+</html>
+{% endblock %}
