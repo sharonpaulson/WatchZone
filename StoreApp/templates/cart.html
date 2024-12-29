@@ -1,6 +1,6 @@
 <!doctype html>
 {% load static %}
-<html lang="zxx">
+<html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -25,9 +25,7 @@
 
 </head>
 
-
 <body>
-
 <header>
     <!-- Header Start -->
     <div class="header-area">
@@ -36,14 +34,14 @@
                 <div class="menu-wrapper">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="{% static 'store/img/logo/logo.png' %}" alt=""></a>
+                        <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
                     </div>
                     <!-- Main-menu -->
                     <div class="main-menu d-none d-lg-block">
                         <nav>
                             <ul id="navigation">
-                                <li><a href="{% url 'home' %}">Home</a></li>
-                                <li><a href="{% url 'products' %}">shop</a></li>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="shop.html">shop</a></li>
                                 <li><a href="about.html">about</a></li>
                                 <li class="hot"><a href="#">Latest</a>
                                     <ul class="submenu">
@@ -60,13 +58,13 @@
                                 <li><a href="#">Pages</a>
                                     <ul class="submenu">
                                         <li><a href="login.html">Login</a></li>
-                                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                                        <li><a href="cart.html">Cart</a></li>
                                         <li><a href="elements.html">Element</a></li>
                                         <li><a href="confirmation.html">Confirmation</a></li>
                                         <li><a href="checkout.html">Product Checkout</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -78,9 +76,24 @@
                                     <span class="flaticon-search"></span>
                                 </div>
                             </li>
-                            <li><a href="{% url 'sign_in' %}"><span class="flaticon-user"></span></a></li>
-                            <li><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart"></span></a></li>
+
+                            {% if request.session.Signup_Name %}
+                            <li>
+                                <a href="{% url 'user_logout' %}">
+                                    <span class="flaticon-user">Welcome, {{request.session.Signup_Name}} / logout</span>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a href="{% url 'sign_in' %}"><span class="flaticon-user"></span></a>
+                            </li>
+                            {% endif %}
+
+                            <li><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart"><sup style="color: yellow"><b>{{x}}</b></sup></span>
+                                </a></li>
+
                         </ul>
+
                     </div>
                 </div>
                 <!-- Mobile Menu -->
@@ -100,129 +113,128 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>Watch Shop</h2>
+                            <h2>Cart List</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Hero Area End-->
-    <!--================Single Product Area =================-->
-    <div class="product_image_area">
+    <!--================Cart Area =================-->
+    <section class="cart_area section_padding">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="product_img_slide owl-carousel">
-                        <div>
-                            <img src="{{pro.Product_Image.url}}" height="500px" alt="#">
-                        </div>
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="product-name" style="font-size: 1.5em;">Product</th>
+                            <th class="product-quantity" style="font-size: 1.5em;">Quantity</th>
+                            <th class="product-total" style="font-size: 1.5em;">Total</th>
+                            <th class="product-price" style="font-size: 1.5em;">Image</th>
+                            <th class="product-remove" style="font-size: 1.5em;">Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in carts %}
+                        <tr>
+                            <td class="product-name">
+                                <h2 class="h5 text-black">{{i.Product_Name}}</h2>
+                            </td>
+                            <td>
+                                {{i.Product_Quantity}}
+                            </td>
+                            <td>Rs. {{i.Total_Price}}</td>
+                            <td>
+                                <img src="{{i.Product_Image.url}}" width="80px" height="80px">
+                            </td>
+                            <td><a href="#">
+                                <button class="btn btn-secondary">X</button>
+                            </a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mb-5">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <button class="btn btn-black btn-sm btn-block">Update Cart</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <div class="single_product_text text-center">
-                        <h3>Model Name: {{pro.Product_Name}}</h3>
-                        <h4> Description: {{pro.Product_Description}}</h4>
-                        <h5> Price: Rs {{pro.Product_Price}}</h5>
-
-
-                        <form method="post" action="{% url 'save_cart' %}">
-                            {% csrf_token %}
-                            <div class="card_area">
-                                <label>Product Name</label><br>
-                                <input type="text" name="product_name" id="product_name" style="padding-left: 70px"
-                                       value="{{pro.Product_Name}}"><br><br>
-                                <div>
-
-                                    <h6>Quantity</h6>
-                                    <div class="product_count d-inline-block">
-
-                                        <input name="product_quantity" id="product_quantity" class="product_count_item input-number"
-                                               type="number" min="1"
-                                               max="10">
-
-                                    </div>
-                                </div>
-
-                                <br><br>
-                                <label>Image</label><br>
-                                <img src="{{pro.Product_Image.url}}" height="500px" name="product_image" alt="#"><br>
-
-                                <label> Price</label><br>
-                                <input type="text" id="product_price" style="padding-left: 100px"
-                                       value="{{pro.Product_Price}}"><br><br>
-
-                                <label>Total Price</label><br>
-
-                                <input type="text" name="total_price" style="padding-left: 90px" id="total_price"><br><br>
-
-                                <input type="text" style="padding-left: 90px" name="username" id="username"
-                                       value="{{request.session.Signup_Name}}"><br><br>
-                                <div class="add_to_cart">
-
-                                    <button type="submit" class="genric-btn primary-border">Add to cart</button>
-                                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="text-black h4" for="coupon">Coupon</label>
+                        <p>Enter your coupon code if you have one.</p>
+                    </div>
+                    <div class="col-md-8 mb-3 mb-md-0">
+                        <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-black">Apply Coupon</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pl-5">
+                <div class="row justify-content-end">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 text-right border-bottom mb-5">
+                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                             </div>
-                        </form>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Subtotal</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">Rs.{{subtotal}} </strong>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Shipping Charges</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">Rs. {{shipping_charge}}</strong>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Total</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">Rs. {{total}}</strong>
+                            </div>
+                        </div>
 
-<!--                        <form action="#" method="post">-->
-<!--                            {% csrf_token %}-->
-<!--                            <div class="mb-3">-->
-<!--                                <label class="form-label">Quantity</label>-->
-<!--                                <input type="number" id="quantity" name="product_quantity" class="form-control" min="1"-->
-<!--                                       max="10">-->
-<!--                            </div>-->
-
-<!--                            <div class="mb-3">-->
-<!--                                &lt;!&ndash;                            <label class="form-label">Price</label>&ndash;&gt;-->
-<!--                                <input type="hidden" id="price" name="product_mrp" class="form-control"-->
-<!--                                       value="{{ pro.Product_MRP }}">-->
-<!--                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label class="form-label">Total Price</label>-->
-<!--                                <input type="text" name="total_price" id="total" class="form-control">-->
-<!--                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label class="form-label">Product Name</label>-->
-<!--                                <input type="text" name="product_name" id="product_name" value="{{ pro.Product_Name }}"-->
-<!--                                       class="form-control">-->
-<!--                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                &lt;!&ndash;                            <label class="form-label">User Name</label>&ndash;&gt;-->
-<!--                                <input type="hidden" value="{{req.session.Signup_Name}}" name="username"-->
-<!--                                       id="username" class="form-control">-->
-<!--                            </div>-->
-
-<!--                            <button class="btn btn-primary" type="submit">Add to Cart</button>-->
-<!--                        </form>-->
-
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-black btn-lg py-3 btn-block"
+                                   href="#">Proceed To Checkout
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--================End Single Product Area =================-->
-    <!-- subscribe part here -->
-    <section class="subscribe_part section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="subscribe_part_content">
-                        <h2>Get promotions & updates!</h2>
-                        <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic”
-                            sources credibly innovate granular internal .</p>
-                        <div class="subscribe_form">
-                            <input type="email" placeholder="Enter your mail">
-                            <a href="#" class="btn_1">Subscribe</a>
-                        </div>
-                    </div>
+
+
+
                 </div>
             </div>
         </div>
     </section>
-    <!-- subscribe part end -->
+    <!--================End Cart Area =================-->
 </main>
+
 <footer>
     <!-- Footer Start-->
     <div class="footer-area footer-padding">
@@ -233,8 +245,7 @@
                         <div class="single-footer-caption mb-30">
                             <!-- logo -->
                             <div class="footer-logo">
-                                <a href="index.html"><img src="{% static 'store/img/logo/logo2_footer.png' %}"
-                                                          alt=""></a>
+                                <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
@@ -326,60 +337,38 @@
 
 <!-- JS here -->
 
-<script src="{% static 'store/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
 <!-- Jquery, Popper, Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script>
-    $(document).ready(function(){
-    $("#product_quantity").change(function(){
-    a = document.getElementById("product_quantity").value
-    b = document.getElementById("product_price").value
-    result = a * b
-    document.getElementById("total_price").value = result
-
-    })
-    })
-
-
-</script>
-<script src="{% static 'store/js/vendor/jquery-1.12.4.min.js' %}"></script>
-<script src="{% static 'store/js/popper.min.js' %}"></script>
-<script src="{% static 'store/js/bootstrap.min.js' %}"></script>
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
 <!-- Jquery Mobile Menu -->
-<script src="{% static 'store/js/jquery.slicknav.min.js' %}"></script>
+<script src="./assets/js/jquery.slicknav.min.js"></script>
 
 <!-- Jquery Slick , Owl-Carousel Plugins -->
-<script src="{% static 'store/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'store/js/slick.min.js' %}"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<script src="./assets/js/slick.min.js"></script>
 
 <!-- One Page, Animated-HeadLin -->
-<script src="{% static 'store/js/wow.min.js' %}"></script>
-<script src="{% static 'store/js/animated.headline.js' %}"></script>
-<script src="{% static 'store/js/jquery.magnific-popup.js' %}"></script>
+<script src="./assets/js/wow.min.js"></script>
+<script src="./assets/js/animated.headline.js"></script>
 
-<!-- Scroll up, nice-select, sticky -->
-<script src="{% static 'store/js/jquery.scrollUp.min.js' %}"></script>
-<script src="{% static 'store/js/jquery.nice-select.min.js' %}"></script>
-<script src="{% static 'store/js/jquery.sticky.js' %}"></script>
+<!-- Scrollup, nice-select, sticky -->
+<script src="./assets/js/jquery.scrollUp.min.js"></script>
+<script src="./assets/js/jquery.nice-select.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/jquery.magnific-popup.js"></script>
 
 <!-- contact js -->
-<script src="{% static 'store/js/contact.js' %}"></script>
-<script src="{% static 'store/js/jquery.form.js' %}"></script>
-<script src="{% static 'store/js/jquery.validate.min.js' %}"></script>
-<script src="{% static 'store/js/mail-script.js' %}"></script>
-<script src="{% static 'store/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="./assets/js/contact.js"></script>
+<script src="./assets/js/jquery.form.js"></script>
+<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/mail-script.js"></script>
+<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
 
 <!-- Jquery Plugins, main Jquery -->
-<script src="{% static 'store/js/plugins.js' %}"></script>
-<script src="{% static 'store/js/main.js' %}"></script>
-
-<!-- swiper js -->
-<script src="{% static 'store/js/swiper.min.js' %}"></script>
-<!-- swiper js -->
-<script src="{% static 'store/js/mixitup.min.js' %}"></script>
-<script src="{% static 'store/js/jquery.counterup.min.js' %}"></script>
-<script src="{% static 'store/js/waypoints.min.js' %}"></script>
+<script src="./assets/js/plugins.js"></script>
+<script src="./assets/js/main.js"></script>
 
 </body>
-
 </html>

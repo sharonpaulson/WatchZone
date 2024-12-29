@@ -43,7 +43,7 @@
                                 <li><a href="{% url 'home' %}">Home</a></li>
                                 <li><a href="{% url 'products' %}">shop</a></li>
                                 <li><a href="#">about</a></li>
-                                <li class="hot"><a href="#">Latest</a>
+                                <li class="hot"><a >Latest</a>
                                     <ul class="submenu">
                                         <li><a href="shop.html"> Product list</a></li>
                                         <li><a href="product_details.html"> Product Details</a></li>
@@ -77,10 +77,10 @@
             </div>
         </li>
 
-        {% if req.session.Signup_Name %}
+        {% if request.session.Signup_Name %}
             <li>
                 <a href="{% url 'user_logout' %}">
-                    <span class="flaticon-user"></span> Welcome, {{ req.session.Signup_Name }} / logout
+                    <span class="flaticon-user">Welcome, {{request.session.Signup_Name}} / logout</span>
                 </a>
             </li>
         {% else %}
@@ -89,7 +89,7 @@
             </li>
         {% endif %}
 
-        <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a></li>
+        <li><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart"></span></a></li>
     </ul>
 </div>
                 </div>

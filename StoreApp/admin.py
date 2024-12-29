@@ -1,3 +1,4 @@
 from django.contrib import admin
+from StoreApp.models import SignupDB
 
-# Register your models here.
+admin.site.register(SignupDB)

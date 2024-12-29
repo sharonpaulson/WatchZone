@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from LatestApp.models import CategoryDB, ProductDB
 from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib import messages
 
 
 def index(req):
@@ -21,6 +22,7 @@ def save_categories(req):
                          Category_Description=category_description,
                          Category_Image=category_image)
         obj.save()
+        messages.success(req, "Categories saved successfully...!")
         return redirect(add_categories)
 
 
@@ -50,6 +52,8 @@ def update_categories(req, cat_id):
         CategoryDB.objects.filter(id=cat_id).update(
             Category_Name=category_name, Category_Description=category_description, Category_Image=file
         )
+        messages.success(req, "Changes saved successfully...!")
+
         return redirect(display_categories)
 
 
@@ -75,6 +79,7 @@ def save_products(req):
                         Product_Description=product_description,
                         Product_Price=product_price, Product_Image=product_image)
         obj.save()
+        messages.success(req, "Products saved successfully...!")
         return redirect(add_products)
 
 
@@ -110,6 +115,7 @@ def update_products(req, pro_id):
             Product_Description=product_description,
             Product_Image=file2
         )
+        messages.success(req, "Changes saved successfully...!")
         return redirect(display_products)
 
 
